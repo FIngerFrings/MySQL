@@ -31,3 +31,6 @@ select dname from dept where deptno = (select a.deptno from (select deptno, avg(
 /* 7.求平均薪水的等级最低的部门的部门名称*/
 /* 该方法就是先找出等级最低的部门编号，然后找到对应的部门名称 */
 select c.dname from dept as c where c.deptno = (select a.deptno from (select deptno, avg(sal) as avgsal from emp group by deptno) as a left join salgrade as b on a.avgsal between b.losal and b.hisal order by b.grade asc limit 1);
+
+/* 9.取得薪水最高的前五名员工 */
+select ename, sal from emp order by sal desc limit 5;
