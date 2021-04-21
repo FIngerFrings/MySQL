@@ -40,3 +40,6 @@ select ename, sal from emp order by sal desc limit 5, 5;
 
 /* 11.取得最后入职的 5 名员工 */
 select ename, hiredate from emp order by substr(hiredate, 1, 4) desc, substr(hiredate, 6, 2) desc, substr(hiredate, 9, 2) desc limit 5;
+
+/* 12.取得每个薪水等级有多少员工*/
+select b.grade, count(b.grade) from emp as a join salgrade as b on a.sal between b.losal and b.hisal group by b.grade;
