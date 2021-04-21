@@ -33,6 +33,7 @@ select dname from dept where deptno = (select a.deptno from (select deptno, avg(
 select c.dname from dept as c where c.deptno = (select a.deptno from (select deptno, avg(sal) as avgsal from emp group by deptno) as a left join salgrade as b on a.avgsal between b.losal and b.hisal order by b.grade asc limit 1);
 
 /* 8.取得比普通员工(员工代码没有在 mgr 字段上出现的)的最高薪水还要高的领导人姓名*/
+/* 有一点需要明确的就是，比普通员工最高薪资高的一定是领导，因为比普通员工最高薪资低的领导已经不需要统计进来了 */
 select ename, sal from emp where sal > (select max(sal) as maxsal from emp where empno not in (select distinct mgr from emp where mgr is not null));
                                                                                                
 /* 9.取得薪水最高的前五名员工 */
