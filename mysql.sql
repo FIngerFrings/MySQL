@@ -22,3 +22,8 @@ select e.deptno, avg(s.grade) as 'sal<grade>' from emp as e join salgrade as s o
  select b.deptno from (select a.deptno, max(a.avgsal) from (select deptno, avg(sal) as avgsal from emp group by deptno) as a) as b;
  /* 第三种方案 先找出最大值，然后使用where语句部门编号*/
  select a.deptno from (select deptno, avg(sal) as avgsal from emp group by deptno) as a where a.avgsal = (select max(a.avgsal) from (select deptno, avg(sal) as avgsal from emp group by deptno) as a);
+
+
+/* 6. 取得平均薪水最高的部门的部门名称 */
+/* 该方法就是先找出平均薪资最大的部门编号，然后在dept表中找出对应的名字 */
+select dname from dept where deptno = (select a.deptno from (select deptno, avg(sal) as avgsal from emp group by deptno order by avgsal desc limit 1) as a);
