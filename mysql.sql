@@ -34,3 +34,9 @@ select c.dname from dept as c where c.deptno = (select a.deptno from (select dep
 
 /* 9.取得薪水最高的前五名员工 */
 select ename, sal from emp order by sal desc limit 5;
+
+/* 10.取得薪水最高的第六到第十名员工 */
+select ename, sal from emp order by sal desc limit 5, 5;
+
+/* 11.取得最后入职的 5 名员工 */
+select ename, hiredate from emp order by substr(hiredate, 1, 4) desc, substr(hiredate, 6, 2) desc, substr(hiredate, 9, 2) desc limit 5;
