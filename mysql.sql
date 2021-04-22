@@ -72,6 +72,8 @@ select b.dname, a.* from emp as a right join dept as b on a.deptno = b.deptno;
 /* 17.列出至少有 5 个员工的所有部门 */
 select c.dname, count(*) from (select b.dname, a.* from emp as a right join dept as b on a.deptno = b.deptno) as c group by c.dname having count(c.dname) >= 5;                                                                                                                        
                                                                                                                         
-                                                                                             
+/* 18.列出薪金比"SMITH"多的所有员工信息.*/                                                                                             
+select * from emp where sal > (select sal from emp where ename = 'smith');                                                                                                                        
                                                                                                                         
-                                                                                                                        
+/* 19.列出所有"CLERK"(办事员)的姓名及其部门名称,部门的人数.*/
+select a.ename, b.dname, c.cc from (select ename, deptno from emp where job = 'clerk') as a join dept as b on a.deptno = b.deptno join (select b.dname as deptname, count(*) as cc from emp as a join dept as b on a.deptno = b.deptno group by dname) as c on b.dname = c.deptname;
