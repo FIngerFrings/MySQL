@@ -95,3 +95,6 @@ select ename, sal from emp where sal in (select sal from emp where deptno = 30) 
                                                                                                                         
 /* 25.列出薪金高于在部门 30 工作的所有员工的薪金的员工姓名和薪金.部门名称.  */
 select a.ename, a.sal, b.dname from emp as a join dept as b on a.deptno = b.deptno where a.sal > (select max(sal) from emp where deptno = 30) and a.deptno != 30;                                                                                                                        
+
+/* 27.列出所有员工的姓名、部门名称和工资。*/
+select a.ename, b.dname, a.sal from emp as a join dept as b on a.deptno = b.deptno;                                                                                                                       
