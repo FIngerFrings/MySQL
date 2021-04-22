@@ -101,3 +101,6 @@ select a.ename, b.dname, a.sal from emp as a join dept as b on a.deptno = b.dept
 
 /* 28.列出所有部门的详细信息和人数*/
 select a.deptno, a.dname, a.loc, ifnull(b.num, 0) from dept as a left join (select deptno, count(*) as num from emp group by deptno) as b on a.deptno = b.deptno;                                                                                                                        
+
+/* 29.列出各种工作的最低工资及从事此工作的雇员姓名*/
+select a.* from emp as a join (select job, min(sal) as minsal from emp group by job) as b on a.job = b.job and a.sal = b.minsal;                                                                                                                        
