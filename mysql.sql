@@ -77,3 +77,9 @@ select * from emp where sal > (select sal from emp where ename = 'smith');
                                                                                                                         
 /* 19.列出所有"CLERK"(办事员)的姓名及其部门名称,部门的人数.*/
 select a.ename, b.dname, c.cc from (select ename, deptno from emp where job = 'clerk') as a join dept as b on a.deptno = b.deptno join (select b.dname as deptname, count(*) as cc from emp as a join dept as b on a.deptno = b.deptno group by dname) as c on b.dname = c.deptname;
+
+/* 20.列出最低薪金大于 1500 的各种工作及从事此工作的全部雇员人数.*/
+select job, count(job) from emp group by job having min(sal) > 1500;
+                                                                                                                        
+/* 21.列出在部门"SALES"<销售部>工作的员工的姓名,假定不知道销售部的部门编号.*/
+select ename from emp where deptno = (select deptno from dept where dname = 'sales');
