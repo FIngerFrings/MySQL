@@ -98,3 +98,6 @@ select a.ename, a.sal, b.dname from emp as a join dept as b on a.deptno = b.dept
 
 /* 27.列出所有员工的姓名、部门名称和工资。*/
 select a.ename, b.dname, a.sal from emp as a join dept as b on a.deptno = b.deptno;                                                                                                                       
+
+/* 28.列出所有部门的详细信息和人数*/
+select a.deptno, a.dname, a.loc, ifnull(b.num, 0) from dept as a left join (select deptno, count(*) as num from emp group by deptno) as b on a.deptno = b.deptno;                                                                                                                        
