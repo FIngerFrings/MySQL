@@ -51,4 +51,5 @@ select b.grade, count(b.grade) from emp as a join salgrade as b on a.sal between
 /* 13.面试题 */
 /* 问题1：找出没选过“黎明”老师的所有学生姓名。*/
 /* 其实类似于8 */
+/* 如果要找某个表的补集，也就是不在这张表的数据，则使用where，而不是连接两张表 */
 select sname from s where sno not in (select sno from sc where cno = 5);                                                                
