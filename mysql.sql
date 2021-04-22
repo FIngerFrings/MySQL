@@ -56,3 +56,5 @@ select sname from s where sno not in (select sno from sc where cno = 5);
 
 /* 问题2：列出 2 门以上（含 2 门）不及格学生姓名及平均成绩。 */
 select sname from s where sno = (select a.sno from (select * from sc where scgrade < 60) as a group by a.sno having count(a.sno) > 2);
+
+                                                                                               
