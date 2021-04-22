@@ -65,3 +65,6 @@ select a.ename, ifnull(b.ename, '没有上级') from emp as a left join emp as b
 
 /* 15.列出受雇日期早于其直接上级的所有员工的编号,姓名,部门名称*/
 select a.empno, a.ename, c.dname from emp as a join emp as b on (a.mgr = b.empno and (substr(a.hiredate, 1, 8) < substr(b.hiredate, 1, 8))) join dept as c on a.deptno = c.deptno;
+
+/* 16.列出部门名称和这些部门的员工信息,同时列出那些没有员工的部门 */
+select b.dname, a.* from emp as a right join dept as b on a.deptno = b.deptno;
