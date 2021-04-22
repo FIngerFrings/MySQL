@@ -59,3 +59,6 @@ select sname from s where sno = (select a.sno from (select * from sc where scgra
 
 /* 问题3：即学过 1 号课程又学过 2 号课所有学生的姓名*/
 select sname from s where sno in (select sno from sc where cno = 1 or cno = 2 group by sno having count(sno) >= 2);
+                                                                                               
+/* 14.列出所有员工及领导的姓名 */
+select a.ename, ifnull(b.ename, '没有上级') from emp as a left join emp as b on a.mgr = b.empno;
