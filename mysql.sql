@@ -47,3 +47,8 @@ select ename, hiredate from emp order by substr(hiredate, 1, 4) desc, substr(hir
 
 /* 12.取得每个薪水等级有多少员工*/
 select b.grade, count(b.grade) from emp as a join salgrade as b on a.sal between b.losal and b.hisal group by b.grade;
+
+/* 13.面试题 */
+/* 问题1：找出没选过“黎明”老师的所有学生姓名。*/
+/* 其实类似于8 */
+select sname from s where sno not in (select sno from sc where cno = 5);                                                                
