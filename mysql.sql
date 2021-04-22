@@ -83,3 +83,6 @@ select job, count(job) from emp group by job having min(sal) > 1500;
                                                                                                                         
 /* 21.列出在部门"SALES"<销售部>工作的员工的姓名,假定不知道销售部的部门编号.*/
 select ename from emp where deptno = (select deptno from dept where dname = 'sales');
+
+/* 22.     列出薪金高于公司平均薪金的所有员工,所在部门,上级领导,雇员的工资等级. */
+select a.ename, b.dname, c.ename, d.grade from emp as a join dept as b on a.deptno = b.deptno left join emp as c on a.mgr = c.empno join salgrade as d on a.sal between d.losal and d.hisal where a.sal > (select avg(sal) from emp);                                                                                                                        
