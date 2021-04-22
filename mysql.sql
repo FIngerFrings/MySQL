@@ -68,3 +68,10 @@ select a.empno, a.ename, c.dname from emp as a join emp as b on (a.mgr = b.empno
 
 /* 16.列出部门名称和这些部门的员工信息,同时列出那些没有员工的部门 */
 select b.dname, a.* from emp as a right join dept as b on a.deptno = b.deptno;
+
+/* 17.列出至少有 5 个员工的所有部门 */
+select c.dname, count(*) from (select b.dname, a.* from emp as a right join dept as b on a.deptno = b.deptno) as c group by c.dname having count(c.dname) >= 5;                                                                                                                        
+                                                                                                                        
+                                                                                             
+                                                                                                                        
+                                                                                                                        
