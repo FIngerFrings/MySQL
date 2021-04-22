@@ -62,3 +62,6 @@ select sname from s where sno in (select sno from sc where cno = 1 or cno = 2 gr
                                                                                                
 /* 14.列出所有员工及领导的姓名 */
 select a.ename, ifnull(b.ename, '没有上级') from emp as a left join emp as b on a.mgr = b.empno;
+
+/* 15.列出受雇日期早于其直接上级的所有员工的编号,姓名,部门名称*/
+select a.empno, a.ename, c.dname from emp as a join emp as b on (a.mgr = b.empno and (substr(a.hiredate, 1, 8) < substr(b.hiredate, 1, 8))) join dept as c on a.deptno = c.deptno;
