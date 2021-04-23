@@ -104,3 +104,15 @@ select a.deptno, a.dname, a.loc, ifnull(b.num, 0) from dept as a left join (sele
 
 /* 29.列出各种工作的最低工资及从事此工作的雇员姓名*/
 select a.* from emp as a join (select job, min(sal) as minsal from emp group by job) as b on a.job = b.job and a.sal = b.minsal;                                                                                                                        
+
+/* 30.列出各个部门的 MANAGER(领导)的最低薪金 */
+select min(sal), deptno from emp where job = 'manager' group by deptno;
+                                                                                                                        
+/* 31.列出所有员工的年工资,按年薪从低到高排序*/
+select ename, (sal*12+ifnull(comm, 0)) as income from emp;
+                             
+/* 32.求出员工领导的薪水超过 3000 的员工名称与领导名称*/
+select a.ename, b.ename, b.sal from emp as a join emp as b on a.mgr = b.empno and b.sal > 3000;
+                             
+/* 33.求出部门名称中,带'S'字符的部门员工的工资合计、部门人数*/
+select a.dname, ifnull(b.sunsal, ''), ifnull(b.num, 0) from (select dname, deptno from dept where dname like '%s%') as a left join (select deptno, count(*) as num, sum(sal) as sunsal from emp where deptno in (select deptno from dept where dname like '%s%') group by deptno) as b on a.deptno = b.deptno;                          
