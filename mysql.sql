@@ -121,3 +121,6 @@ select a.ename, b.ename, b.sal from emp as a join emp as b on a.mgr = b.empno an
                              
 /* 33.求出部门名称中,带'S'字符的部门员工的工资合计、部门人数*/
 select a.dname, ifnull(b.sunsal, ''), ifnull(b.num, 0) from (select dname, deptno from dept where dname like '%s%') as a left join (select deptno, count(*) as num, sum(sal) as sunsal from emp where deptno in (select deptno from dept where dname like '%s%') group by deptno) as b on a.deptno = b.deptno;                          
+
+/* 34.给任职日期超过 30 年的员工加薪 10%.*/
+update emp set sal = sal*1.1 where timestampdiff(YEAR, hiredate, now()) > 30;                            
