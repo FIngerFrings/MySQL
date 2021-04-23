@@ -30,11 +30,13 @@ select dname from dept where deptno = (select a.deptno from (select deptno, avg(
 /* 7.求平均薪水的等级最低的部门的部门名称*/
 /* 该方法就是先找出等级最低的部门编号，然后找到对应的部门名称 */
 select c.dname from dept as c where c.deptno = (select a.deptno from (select deptno, avg(sal) as avgsal from emp group by deptno) as a left join salgrade as b on a.avgsal between b.losal and b.hisal order by b.grade asc limit 1);
+/* 上面这种方法实际上不好，因为最低等级不一定只有一个，所以应该先找出最低的等级，然后再用where条件查询等级为最低等级的部门名称*/
 
 /* 8.取得比普通员工(员工代码没有在 mgr 字段上出现的)的最高薪水还要高的领导人姓名*/
 /* 有一点需要明确的就是，比普通员工最高薪资高的一定是领导，因为比普通员工最高薪资低的领导已经不需要统计进来了 */
+/* not in在使用的时候，后面的括号内记得排除null*/
 select ename, sal from emp where sal > (select max(sal) as maxsal from emp where empno not in (select distinct mgr from emp where mgr is not null));
-                                                                                               
+                                                                                             
 /* 9.取得薪水最高的前五名员工 */
 select ename, sal from emp order by sal desc limit 5;
 
@@ -42,9 +44,10 @@ select ename, sal from emp order by sal desc limit 5;
 select ename, sal from emp order by sal desc limit 5, 5;
 
 /* 11.取得最后入职的 5 名员工 */
+/* 日期也可以降序排列，不需要像下面这样取子串*/                                                                                              
 select ename, hiredate from emp order by substr(hiredate, 1, 4) desc, substr(hiredate, 6, 2) desc, substr(hiredate, 9, 2) desc limit 5;
 
-/* 12.取得每个薪水等级有多少员工*/
+/* 12.取得每个薪水等级有多少员工*/                                                                                               
 select b.grade, count(b.grade) from emp as a join salgrade as b on a.sal between b.losal and b.hisal group by b.grade;
 
 /* 13.面试题 */
@@ -77,7 +80,7 @@ select * from emp where sal > (select sal from emp where ename = 'smith');
 /* 19.列出所有"CLERK"(办事员)的姓名及其部门名称,部门的人数.*/
 select a.ename, b.dname, c.cc from (select ename, deptno from emp where job = 'clerk') as a join dept as b on a.deptno = b.deptno join (select b.dname as deptname, count(*) as cc from emp as a join dept as b on a.deptno = b.deptno group by dname) as c on b.dname = c.deptname;
 
-/* 20.列出最低薪金大于 1500 的各种工作及从事此工作的全部雇员人数.*/
+/* 20.列出 最低薪金大于 1500 的各种工作及从事此工作的全部雇员人数.*/
 select job, count(job) from emp group by job having min(sal) > 1500;
                                                                                                                         
 /* 21.列出在部门"SALES"<销售部>工作的员工的姓名,假定不知道销售部的部门编号.*/
@@ -95,6 +98,9 @@ select ename, sal from emp where sal in (select sal from emp where deptno = 30) 
 /* 25.列出薪金高于在部门 30 工作的所有员工的薪金的员工姓名和薪金.部门名称.  */
 select a.ename, a.sal, b.dname from emp as a join dept as b on a.deptno = b.deptno where a.sal > (select max(sal) from emp where deptno = 30) and a.deptno != 30;                                                                                                                        
 
+/* 26.列出在每个部门工作的员工数量,平均工资和平均服务期限.*/
+select b.dname, count(*), ifnull(avg(a.sal), 0), ifnull(avg(timestampdiff(year, a.hiredate, now())), 0) from emp as a right join dept as b on a.deptno = b.deptno group by b.dname;                                                                                                                        
+                                                                                                                        
 /* 27.列出所有员工的姓名、部门名称和工资。*/
 select a.ename, b.dname, a.sal from emp as a join dept as b on a.deptno = b.deptno;                                                                                                                       
 
